@@ -2,6 +2,7 @@ package com.mini.springboot.service.posts;
 
 import com.mini.springboot.domain.posts.Posts;
 import com.mini.springboot.domain.posts.PostsRepository;
+import com.mini.springboot.web.dto.PostsResponseDto;
 import com.mini.springboot.web.dto.PostsSaveRequestDto;
 import com.mini.springboot.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,14 @@ public class PostsService {
         posts.update(requestDto.getTitle(), requestDto.getContent());
 
         return id;
+    }
+
+    public PostsResponseDto findById(Long id) {
+
+        Posts posts = postsRepository.findById(id).orElseThrow(() ->
+            new IllegalArgumentException("헤당 게시글이 없습니다. id = " + id)
+        );
+
+        return new PostsResponseDto(posts);
     }
 }
