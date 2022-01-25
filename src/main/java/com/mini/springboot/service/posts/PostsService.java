@@ -2,12 +2,16 @@ package com.mini.springboot.service.posts;
 
 import com.mini.springboot.domain.posts.Posts;
 import com.mini.springboot.domain.posts.PostsRepository;
+import com.mini.springboot.web.dto.PostsListResponseDto;
 import com.mini.springboot.web.dto.PostsResponseDto;
 import com.mini.springboot.web.dto.PostsSaveRequestDto;
 import com.mini.springboot.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -38,5 +42,10 @@ public class PostsService {
         );
 
         return new PostsResponseDto(posts);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostsListResponseDto> findAllDesc() {
+        return postsRepository.findAllDesc().stream().map(PostsListResponseDto::new).collect(Collectors.toList());
     }
 }
